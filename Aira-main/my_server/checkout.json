@@ -1,0 +1,29 @@
+{
+    "_id": "6430a1b4e8d8a2c3d7e1f2a3",
+    "userId": "6430a1b4e8d8a2c3d7e1f2a1",
+    "checkoutDate": "2025-03-20T08:30:45.123Z",
+    "products": [
+      {
+        "product_id": "6430a1b4e8d8a2c3d7e1f2b1",
+        "name": "Áo thun nam",
+        "price": 299000,
+        "discount": 10,
+        "final_price": "269100.00",
+        "image": "aothun.jpg",
+        "quantity": 2
+      },
+      {
+        "product_id": "6430a1b4e8d8a2c3d7e1f2b2",
+        "name": "Quần jeans",
+        "price": 499000,
+        "discount": 0,
+        "final_price": "499000.00",
+        "image": "quanjeans.jpg",
+        "quantity": 1
+      }
+    ],
+    "subtotal": "1037200.00",
+    "shippingFee": "30000.00",
+    "total": "1067200.00",
+    "status": "pending"
+  }

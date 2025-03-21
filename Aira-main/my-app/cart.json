@@ -1,0 +1,48 @@
+{
+    "cart_id": "CART12345",
+    "items": [
+      {
+        "_id": { "$oid": "640b187e71d9faa9039ff970" },
+        "id": "SC001",
+        "name": "Lavender Scented Candle",
+        "description": "A relaxing lavender-scented candle made from natural soy wax.",
+        "category": "Home Fragrance",
+        "brand": "Pure Aroma",
+        "weight": "250g",
+        "dimensions": {
+          "height": "10cm",
+          "diameter": "8cm"
+        },
+        "burn_time": "45 hours",
+        "ingredients": [
+          "Soy wax",
+          "Lavender essential oil",
+          "Cotton wick"
+        ],
+        "scents": [
+          "Lavender",
+          "Vanilla",
+          "Chamomile"
+        ],
+        "colors": [
+          "Purple",
+          "White"
+        ],
+        "price": 15.99,
+        "currency": "USD",
+        "availability": "In Stock",
+        "rating": 4.8,
+        "reviews_count": 120,
+        "package_contents": [
+          "1 x Scented Candle",
+          "1 x Glass Jar with Lid"
+        ],
+        "image": "https://example.com/images/lavender_candle.jpg",
+        "quantity": 1
+      }
+    ],
+    "total_price": 15.99,
+    "currency": "USD"
+  }
+  
+  

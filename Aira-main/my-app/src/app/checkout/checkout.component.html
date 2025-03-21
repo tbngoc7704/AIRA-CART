@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout - AIRA</title>
+  <link rel="stylesheet" href="checkout.component.css">
+</head>
+
+<body>
+  <!-- Container: Shipping Info & Order Summary -->
+  <div class="container">
+    <!-- Shipping Information -->
+    <div class="shipping-container">
+      <div class="section-box">
+        <h2>Shipping Information</h2>
+        <form [formGroup]="checkoutForm">
+          <label>Full name</label>
+          <input type="text" placeholder="Enter your full name" formControlName="fullName">
+          <div *ngIf="checkoutForm.get('fullName')?.invalid && checkoutForm.get('fullName')?.touched"
+            class="error-message">
+            Full name is required
+          </div>
+
+          <label>Email address</label>
+          <input type="email" placeholder="Enter your email" formControlName="email">
+          <div *ngIf="checkoutForm.get('email')?.invalid && checkoutForm.get('email')?.touched" class="error-message">
+            Valid email is required
+          </div>
+
+          <label>Phone Number</label>
+          <input type="tel" placeholder="Enter your phone number" formControlName="phoneNumber">
+          <div *ngIf="checkoutForm.get('phoneNumber')?.invalid && checkoutForm.get('phoneNumber')?.touched"
+            class="error-message">
+            Valid phone number is required
+          </div>
+
+          <label>Delivery address</label>
+          <input type="text" placeholder="Enter your delivery address" formControlName="deliveryAddress">
+          <div *ngIf="checkoutForm.get('deliveryAddress')?.invalid && checkoutForm.get('deliveryAddress')?.touched"
+            class="error-message">
+            Delivery address is required
+          </div>
+
+          <h3>Select Shipping</h3>
+          <div class="shipping-option">
+            <input type="radio" id="standard" name="shipping" [checked]="selectedShipping === 'Standard'"
+              (change)="updateShippingFee('Standard')">
+            <label for="standard">Standard Delivery (3-5 days) </label>
+          </div>
+          <div class="shipping-option">
+            <input type="radio" id="express" name="shipping" [checked]="selectedShipping === 'Express'"
+              (change)="updateShippingFee('Express')">
+            <label for="express">Express Delivery (Same-day) </label>
+          </div>
+          <div class="shipping-option">
+            <input type="radio" id="ninja" name="shipping" [checked]="selectedShipping === 'Ninja'"
+              (change)="updateShippingFee('Ninja')">
+            <label for="ninja">Ninja Van </label>
+          </div>
+        </form>
+      </div>
+
+      <!-- Payment Section -->
+      <div class="section-box" style="margin-top: 20px;">
+        <h2>Payment</h2>
+        <div class="payment-option">
+          <input type="radio" id="bank" name="payment" [checked]="selectedPayment === 'BANK'"
+            (change)="setPaymentMethod('bank')">
+          <label for="bank">Bank Transfer</label>
+        </div>
+        <div class="payment-option">
+          <input type="radio" id="cod" name="payment" [checked]="selectedPayment === 'COD'"
+            (change)="setPaymentMethod('cod')">
+          <label for="cod">Cash on delivery (COD)</label>
+        </div>
+        <div class="payment-option">
+          <input type="radio" id="momo" name="payment" [checked]="selectedPayment === 'MOMO'"
+            (change)="setPaymentMethod('momo')">
+          <label for="momo">Payment via Momo</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Order Summary on the right -->
+    <div class="order-container">
+      <div class="section-box">
+        <h2>Order Summary</h2>
+
+        <!-- Products from checkout data -->
+        <div *ngIf="checkoutData && checkoutData.products" class="products-container">
+          <div *ngFor="let product of checkoutData.products" class="product-item">
+            <img [src]="product.image" alt="{{ product.name }}" class="product-image">
+            <div class="product-info">
+              <div class="product-title">{{ product.name }}</div>
+              <div class="product-quantity">Quantity: {{ product.quantity }}</div>
+              <div class="product-price">{{ formatCurrency(product.price) }}</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Empty state if no products -->
+        <div *ngIf="!checkoutData || !checkoutData.products || checkoutData.products.length === 0" class="empty-state">
+          No products in checkout. Please return to cart.
+        </div>
+
+        <!-- Discount Code -->
+        <div class="discount-container">
+          <label>Discount Code</label>
+          <form [formGroup]="discountForm" class="discount-input">
+            <input type="text" formControlName="discountCode" placeholder="Enter discount code">
+            <button type="button" (click)="applyDiscount()" class="apply-btn">Apply</button>
+          </form>
+        </div>
+
+        <!-- Order Summary Details -->
+        <div class="summary-line">
+          <span>Subtotal</span>
+          <span>{{ formatCurrency(subtotal) }}</span>
+        </div>
+
+        <div *ngIf="discountAmount > 0" class="summary-line discount-line">
+          <span>Discount ({{ discountCode }})</span>
+          <span>-{{ formatCurrency(discountAmount) }}</span>
+        </div>
+
+        <div class="summary-line">
+          <span>Shipping Fee</span>
+          <span>{{ formatCurrency(shippingFee) }}</span>
+        </div>
+
+        <div class="total-line">
+          <span>Total</span>
+          <span>{{ formatCurrency(total) }}</span>
+        </div>
+      </div>
+
+      <!-- Bank Transfer Details (if bank payment is selected) -->
+      <div *ngIf="selectedPayment === 'Bank'" class="section-box" style="margin-top: 20px;">
+        <h3>Please transfer the payment to this account</h3>
+        <div class="bank-info">
+          <span>Bank:</span> <strong>  Vietcombank</strong>
+        </div>
+        <div class="bank-info">
+          <span>Account number:</span> <strong> 123456789</strong>
+        </div>
+        <div class="bank-info">
+          <span>Account Holder:</span> <strong> AIRA Joint Stock Company</strong>
+        </div>
+        <div class="bank-info">
+          <span>Transfer Details:</span> <strong>{{ checkoutForm.get('fullName')?.value || '[Name]' }}_{{
+            checkoutForm.get('phoneNumber')?.value || '[Order Phone Number]' }}</strong>
+        </div>
+      </div>
+
+      <p *ngIf="selectedPayment === 'Bank'" class="payment-warning">
+        If you do not complete the payment, your order will be automatically canceled!
+      </p>
+
+      <button (click)="submitOrder()" [disabled]="checkoutForm.invalid || !selectedShipping || !selectedPayment"
+        class="order-button">
+        Place Order
+      </button>
+    </div>
+  </div>
+</body>
+
+</html>

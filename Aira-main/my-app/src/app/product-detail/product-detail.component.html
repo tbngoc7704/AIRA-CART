@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <title>Tiêu đề trang</title>
+</head>
+
+<body>
+    <div class="product-container">
+
+        <div class="product-images">
+            <div class="main-image">
+                <img *ngIf="product?.image" [src]="product.image" alt="{{ product?.name }}">
+            </div>
+            <div class="thumbnail-images">
+                <img src="assets/images/product nhỏ.png" alt="Product picture">
+                <img src="assets/images/product nhỏ.png" alt="Product picture">
+                <img src="assets/images/product nhỏ.png" alt="Product picture">
+            </div>
+        </div>
+
+        <div class="product-info">
+            <h1 class="product-title">{{ product?.name }}</h1>
+
+            <div class="status">Status: <span>{{ product?.availability }}</span></div>
+
+            <div class="price" *ngIf="product">
+                <span *ngIf="product.discount > 0">
+                    <span class="final-price">{{ product.final_price | currency }}</span>
+                    <span class="original-price">{{ product.price | currency }}</span>
+                    <span class="discount">(-{{ product.discount }}%)</span>
+                </span>
+                <span *ngIf="!product.discount || product.discount === 0">
+                    {{ product.price | currency }}
+                </span>
+            </div>
+
+            <div class="bought-info">{{ product?.bought_info }} sold last month</div>
+
+            <h4>Rating</h4>
+            <div class="rating">{{ product?.rating }}</div>
+        </div>
+
+
+        <div class="quantity">
+            Quantity:
+            <button (click)="changeQuantity(-1)">-</button>
+            <input type="text" [value]="quantity" readonly>
+            <button (click)="changeQuantity(1)">+</button>
+            <button class="add-to-cart" (click)="addToCart()">ADD TO CART</button>
+        </div>
+
+        <div class="product-description">
+            <h3>Product description:</h3>
+            <p>{{product?.description}}</p>
+            <p>Immerse yourself in the elegant, floral aroma of iris blossoms, designed to enhance focus and
+                clarity. The Focus Scented Candle creates a serene atmosphere, perfect for work, study, or
+                relaxation. Made from natural soy wax and infused with premium essential oils, it provides a clean,
+                even burn with a long-lasting fragrance.</p>
+            <ul>
+                <li>Shape: Classic cylindrical glass jar</li>
+                <li>Size: 200g | Burn time: ~40 hours</li>
+                <li>Material: Natural soy wax, lead-free cotton wick, high-quality essential oils</li>
+                <li>Dimensions: 8 cm × 7 cm</li>
+                <li>Recommended for: Ages 12+ | Ideal for workspaces, bedrooms, and reading nooks</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="product-container">
+        <div class="relevant-products">
+            <h3>Relevant products:</h3>
+            <div class="product-grid">
+                <div class="product-card">
+                    <img src="assets/images/matcha.png" alt="Matcha Latte Candle">
+                    <h4>Matcha Latte Scented Candle</h4>
+                    <div class="price">90.000 VND</div>
+                </div>
+                <div class="product-card">
+                    <img src="assets/images/flamingo.png" alt="Flamingo Candle">
+                    <h4>Flamingo Scented Candle</h4>
+                    <div class="price">85.000 VND</div>
+                </div>
+                <div class="product-card">
+                    <img src="assets/images/shell.png" alt="Blue Shell Candle">
+                    <h4>Blue Shell Scented Candle</h4>
+                    <div class="price">87.000 VND</div>
+                </div>
+                <div class="product-card">
+                    <img src="assets/images/lavender.png" alt="Lavender Heart Candle">
+                    <h4>Lavender Heart Scented Candle</h4>
+                    <div class="price">75.000 VND</div>
+                </div><br />
+                <a href="#" class="see-more">You want to see more...</a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
